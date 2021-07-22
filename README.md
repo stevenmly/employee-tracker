@@ -5,6 +5,9 @@
   ## Description
   #### An application that companies can use to manage their employee database. Using the inquirer, MYSQL2, and console.table packages, this command-line application allows users to add and view employees, departments, and roles.
   ---
+  ## Demo Link
+  #### https://drive.google.com/file/d/1HI4ANqb0zpUttKuh7M9EqUfwAHjVobRM/view
+  ---
   ## Table of Contents
   - [Installation](#installation)
   - [Usage](#usage)
