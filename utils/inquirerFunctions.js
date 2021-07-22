@@ -145,6 +145,68 @@ function addRole() {
             }
         )
     });
+}
+
+// ADD EMPLOYEE ROLE
+function addRole() { 
+      inquirer.prompt([
+          {
+            name: "roletitle",
+            type: "input",
+            message: "What is the roles Title?"
+          },
+          {
+            name: "rolesalary",
+            type: "input",
+            message: "What is the Salary?"
+          },
+          {
+            name: "roledept",
+            type: "list",
+            message: "What is the Department?",
+            choices: selectDept()
+          } 
+      ]).then(function(choice) {
+        var deptId = selectDept().indexOf(choice.roledept) + 1
+          connection.query(
+              "INSERT INTO roles SET ?",
+              {
+                title: choice.roletitle,
+                salary: choice.rolesalary,
+                department_id: deptId
+              },
+              function(err) {
+                  if (err) throw err
+                  console.table(choice);
+                  startPrompt();
+              }
+          )
+      });
+}
+
+// ADD DEPARTMENT
+function addDept() { 
+
+    inquirer.prompt([
+        {
+          name: "name",
+          type: "input",
+          message: "What Department would you like to add?"
+        }
+    ]).then(function(choice) {
+        var query = conection.query(
+            "INSERT INTO departments SET ? ",
+            {
+              name: choice.name
+
+            },
+            function(err) {
+                if (err) throw err
+                console.table(choice);
+                startPrompt();
+            }
+        )
+    })
   }
 
 module.exports = {
