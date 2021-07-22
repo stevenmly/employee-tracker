@@ -25,6 +25,75 @@ function viewAllEmployees() {
   })
 }
 
+// SELECT ROLE
+var rolesArray = [];
+function selectRole() {
+    connection.query("SELECT * FROM roles",
+    function(err, res) {
+        if (err) throw err
+        for (i=0; i < res.length; i++) {
+            rolesArray.push(res[i].title);
+        }
+    })
+    return rolesArray;
+}
+
+// SELECT MANAGERS
+var managersArray = []
+function selectManager() {
+    connection.query("SELECT first_name, last_name FROM employees WHERE manager_id IS NULL",
+    function(err, res) {
+        if (err) throw err
+        for (i=0; i < res.length; i++) {
+            managersArray.push(res[i].first_name + " " + res[i].last_name);
+        }
+    })
+    return managersArray;
+}
+
+// ADD EMPLOYEE
+function addEmployee() {
+    inquirer.prompt([
+        {
+            name: "firstname",
+            type: "input",
+            message: "Enter employee's first name: "
+        },
+        {
+            name: "lastname",
+            type: "input",
+            message: "Enter employee's last name: "
+        },
+        {
+            name: "role",
+            type: "list",
+            message: "What is employee's role? ",
+            choices: selectRole()
+        },
+        {
+            name: "manager",
+            type: "list",
+            message: "Who is employee's manager? ",
+            choices: selectManager()
+        },
+    ]).then(function(choice) {
+        var roleId = selectRole().indexOf(choice.role) + 1
+        var managerId = selectManager().indexOf(choice.manager) + 1
+        connection.query("INSERT INTO employees SET ?",
+        {
+            first_name: choice.firstname,
+            last_name: choice.lastname,
+            manager_id: managerId,
+            role_id: roleId
+        }, function(err) {
+            if (err) throw err
+            console.table(choice)
+            startPrompt()
+        }
+        )
+    })
+}
+
 module.exports = {
     viewAllDept,
     viewAllRoles, 
