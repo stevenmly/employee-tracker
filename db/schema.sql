@@ -1,6 +1,8 @@
-DROP TABLE IF EXISTS departments;
-DROP TABLE IF EXISTS roles;
-DROP TABLE IF EXISTS employee;
+DROP DATABASE IF EXISTS employee_trackerDB;
+
+CREATE DATABASE employee_trackerDB;
+
+USE employee_trackerDB;
 
 CREATE TABLE departments (
   id INT PRIMARY KEY AUTO_INCREMENT,
